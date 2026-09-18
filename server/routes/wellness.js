@@ -6,14 +6,14 @@ const { WEARABLE_PROVIDERS, getWellnessSummary } = require('../services/healthSe
 
 // Get overall wellness dashboard summary
 router.get('/summary', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const summary = getWellnessSummary(userId);
   res.json(summary);
 });
 
 // Log hydration intake (+250ml quick action or custom)
 router.post('/hydration', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { amount_ml } = req.body;
   const ml = parseInt(amount_ml) || 250;
 
@@ -43,7 +43,7 @@ router.post('/hydration', optionalAuth, (req, res) => {
 
 // Get hydration logs for past 7 days (weekly history chart)
 router.get('/hydration/history', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const history = db.prepare(`
     SELECT date(logged_at) as log_date, SUM(amount_ml) as total_ml, COUNT(*) as logs_count
     FROM hydration_logs
@@ -57,13 +57,13 @@ router.get('/hydration/history', optionalAuth, (req, res) => {
 
 // Meal schedule list & updates
 router.get('/meals', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const meals = db.prepare('SELECT * FROM meal_schedule WHERE user_id = ? ORDER BY scheduled_time ASC').all(userId);
   res.json({ meals });
 });
 
 router.put('/meals/:id', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { scheduled_time, duration_mins, is_enabled } = req.body;
 
   db.prepare(`
@@ -80,7 +80,7 @@ router.put('/meals/:id', optionalAuth, (req, res) => {
 
 // Wearable provider list and connection state
 router.get('/wearables', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const connections = db.prepare('SELECT * FROM wearable_connections WHERE user_id = ?').all(userId);
 
   const providerList = WEARABLE_PROVIDERS.map(p => {
@@ -100,18 +100,18 @@ router.get('/wearables', optionalAuth, (req, res) => {
 
 // Connect / Disconnect wearable (or toggle DEMO DATA)
 router.post('/wearables/connect', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { provider_id, device_name, is_demo } = req.body;
 
   const provider = WEARABLE_PROVIDERS.find(p => p.id === provider_id) || WEARABLE_PROVIDERS[0];
 
-  const existing = db.prepare('SELECT id FROM wearable_connections WHERE user_id = ?').get(userId);
+  const existing = db.prepare('SELECT id FROM wearable_connections WHERE user_id = ? AND provider = ?').get(userId, provider.name);
   if (existing) {
     db.prepare(`
       UPDATE wearable_connections
-      SET provider = ?, status = 'Connected', device_name = ?, last_sync_at = datetime('now'), is_demo = ?
+      SET status = 'Connected', device_name = ?, last_sync_at = datetime('now'), is_demo = ?
       WHERE id = ?
-    `).run(provider.name, device_name || `${provider.name} Device`, is_demo ? 1 : 0, existing.id);
+    `).run(device_name || `${provider.name} Device`, is_demo ? 1 : 0, existing.id);
   } else {
     db.prepare(`
       INSERT INTO wearable_connections (user_id, provider, status, device_name, last_sync_at, is_demo)
@@ -120,23 +120,72 @@ router.post('/wearables/connect', optionalAuth, (req, res) => {
   }
 
   res.json({
-    message: `Successfully connected ${provider.name}`,
+    message: `Successfully connected ${provider.name} (${device_name || 'Smartwatch'})`,
     status: 'Connected',
     is_demo: Boolean(is_demo)
   });
 });
 
 router.post('/wearables/disconnect', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { provider_id } = req.body;
 
-  db.prepare('DELETE FROM wearable_connections WHERE user_id = ?').run(userId);
+  if (provider_id) {
+    const provider = WEARABLE_PROVIDERS.find(p => p.id === provider_id);
+    if (provider) {
+      db.prepare('DELETE FROM wearable_connections WHERE user_id = ? AND provider = ?').run(userId, provider.name);
+    } else {
+      db.prepare('DELETE FROM wearable_connections WHERE user_id = ?').run(userId);
+    }
+  } else {
+    db.prepare('DELETE FROM wearable_connections WHERE user_id = ?').run(userId);
+  }
   res.json({ message: 'Smartwatch/wearable disconnected. Health data sync halted.' });
+});
+
+// Real-time Smartwatch Telemetry Ingestion API (Web Bluetooth / Apple Health / Garmin / Fitbit / Noise / boAt)
+router.post('/telemetry', optionalAuth, (req, res) => {
+  const userId = req.user ? req.user.id : 1;
+  const { heart_rate_bpm, steps, spo2, stress_index, active_minutes, device_name } = req.body;
+
+  const hr = parseInt(heart_rate_bpm) || 72;
+  const st = parseInt(steps) || 5200;
+  const ox = parseInt(spo2) || 98;
+  const stress = parseInt(stress_index) || 28;
+
+  const existing = db.prepare("SELECT id FROM wellness_logs WHERE user_id = ? AND log_date = date('now')").get(userId);
+  if (existing) {
+    db.prepare(`
+      UPDATE wellness_logs
+      SET avg_heart_rate = ?, steps = COALESCE(?, steps), active_minutes = COALESCE(?, active_minutes), is_demo_data = 0
+      WHERE id = ?
+    `).run(hr, st, active_minutes || 45, existing.id);
+  } else {
+    db.prepare(`
+      INSERT INTO wellness_logs (user_id, log_date, sleep_hours, sleep_quality, steps, active_minutes, avg_heart_rate, mood, notes, is_demo_data)
+      VALUES (?, date('now'), 7.5, 'Restful', ?, 45, ?, 'Focused', 'Synced live from smartwatch', 0)
+    `).run(userId, st, hr);
+  }
+
+  // Update last sync on wearable connection
+  db.prepare(`
+    UPDATE wearable_connections
+    SET last_sync_at = datetime('now'), status = 'Connected'
+    WHERE user_id = ?
+  `).run(userId);
+
+  res.json({
+    message: `⚡ Smartwatch Telemetry Streamed (${device_name || 'Wearable'}): ${hr} BPM • ${ox}% SpO2 • ${st} Steps`,
+    heart_rate_bpm: hr,
+    spo2: ox,
+    steps: st,
+    stress_index: stress
+  });
 });
 
 // Toggle Demo Data vs Live Data
 router.post('/wearables/toggle-demo', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { enable_demo } = req.body;
 
   db.prepare(`
@@ -159,7 +208,7 @@ router.post('/wearables/toggle-demo', optionalAuth, (req, res) => {
 
 // Update or manually record wellness entry
 router.post('/logs', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { sleep_hours, sleep_quality, steps, active_minutes, avg_heart_rate, mood, notes } = req.body;
 
   const existing = db.prepare("SELECT id FROM wellness_logs WHERE user_id = ? AND log_date = date('now')").get(userId);

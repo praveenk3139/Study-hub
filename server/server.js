@@ -96,27 +96,26 @@ app.use((err, req, res, next) => {
 });
 
 if (require.main === module) {
-  const server = app.listen(PORT, () => {
-    console.log(`=======================================================`);
-    console.log(`🚀 Study Hub Server running at http://localhost:${PORT}`);
-    console.log(`📚 "Learn • Practice • Grow"`);
-    console.log(`=======================================================`);
-  });
+  function startServer(portToUse) {
+    const server = app.listen(portToUse, () => {
+      console.log(`=======================================================`);
+      console.log(`🚀 Study Hub Server running at http://localhost:${portToUse}`);
+      console.log(`📚 "Learn • Practice • Grow"`);
+      console.log(`=======================================================`);
+    });
 
-  server.on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-      const altPort = Number(PORT) + 1;
-      console.warn(`⚠️ Port ${PORT} is currently in use by an existing process.`);
-      console.warn(`🚀 Automatically switching to port http://localhost:${altPort}...`);
-      app.listen(altPort, () => {
-        console.log(`=======================================================`);
-        console.log(`🚀 Study Hub Server running at http://localhost:${altPort}`);
-        console.log(`=======================================================`);
-      });
-    } else {
-      console.error('Server error:', err);
-    }
-  });
+    server.on('error', (err) => {
+      if (err.code === 'EADDRINUSE') {
+        const nextPort = Number(portToUse) + 1;
+        console.warn(`⚠️ Port ${portToUse} in use, trying http://localhost:${nextPort}...`);
+        startServer(nextPort);
+      } else {
+        console.error('Server launch error:', err);
+      }
+    });
+  }
+
+  startServer(PORT);
 }
 
 module.exports = app;
