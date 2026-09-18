@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyFlow AI — Study smarter. Stay focused. Stay healthy.</title>
+  <meta name="description" content="A unified student companion combining AI-powered studying, PDF analysis, previous-year question papers, strict study plans, distraction protection, and wearable health wellness." />
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/main.css" />
+</head>
+<body>
+  <!-- Authentication Portal (Login / Create New User) -->
+  <div id="auth-screen" style="display: none;"></div>
+
+  <!-- Main App Application Shell -->
+  <div id="app-container" style="display: none;">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-section">
+        <div class="brand-logo" style="background: linear-gradient(135deg, #2563eb, #7c3aed); color: #fff; border-radius: 12px;">🎓</div>
+        <div class="brand-info">
+          <h1 style="font-size: 18px; font-weight: 800; color: #1e293b; background: none; -webkit-text-fill-color: initial;">Study Hub</h1>
+          <p style="font-size: 11px; color: #64748b; font-weight: 500;">Learn • Practice • Grow</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a class="nav-item active" href="#dashboard">
+          <span class="nav-icon">🏠</span>
+          <span>Home</span>
+        </a>
+        <a class="nav-item" href="#my-study">
+          <span class="nav-icon">📚</span>
+          <span>My Study</span>
+        </a>
+        <a class="nav-item" href="#pdf-lab">
+          <span class="nav-icon">📄</span>
+          <span>PDF Analysis</span>
+        </a>
+        <a class="nav-item" href="#tests">
+          <span class="nav-icon">📝</span>
+          <span>Tests & Quizzes</span>
+          <span style="background: #2563eb; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 10px; margin-left: auto;">NEW</span>
+        </a>
+        <a class="nav-item" href="#ai-agent">
+          <span class="nav-icon">🤖</span>
+          <span>AI Assistant</span>
+        </a>
+        <a class="nav-item" href="#planner">
+          <span class="nav-icon">📅</span>
+          <span>Study Plan</span>
+        </a>
+        <a class="nav-item" href="#weak-topics">
+          <span class="nav-icon">🧠</span>
+          <span>Weak Topics</span>
+          <span style="background: #2563eb; color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 10px; margin-left: auto;">NEW</span>
+        </a>
+        <a class="nav-item" href="#fun-checkup">
+          <span class="nav-icon">🎮</span>
+          <span>Fun Check-up</span>
+        </a>
+        <a class="nav-item" href="#social">
+          <span class="nav-icon">👥</span>
+          <span>Friends / Chat</span>
+        </a>
+        <a class="nav-item" href="#analytics">
+          <span class="nav-icon">📊</span>
+          <span>Analytics</span>
+        </a>
+        <a class="nav-item" href="#settings">
+          <span class="nav-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+
+        <div style="margin-top: 15px; padding: 0 4px;">
+          <a class="nav-item" id="nav-admin-link" href="#admin" style="background: rgba(245, 158, 11, 0.08); border-left: 3px solid #f59e0b;">
+            <span class="nav-icon">👑</span>
+            <span style="font-weight: 700; color: #d97706;">Admin Portal</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer" style="padding: 16px;">
+        <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 12px; text-align: center;">
+          <p style="font-size: 12px; color: #047857; font-weight: 600; margin-bottom: 4px;">Small steps every day lead to big results! 🌱</p>
+        </div>
+        <div class="user-mini-card" style="margin-top: 12px; display: flex; align-items: center; gap: 10px;">
+          <div class="user-avatar" id="header-user-avatar" style="background: #2563eb; color: #fff; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700;">P</div>
+          <div class="user-details" style="flex: 1;">
+            <h4 id="header-user-name" style="font-size: 13px; font-weight: 700; margin: 0;">Praveen Kumar</h4>
+            <p id="header-user-sub" style="font-size: 11px; color: #64748b; margin: 0;">Student</p>
+          </div>
+          <button class="btn-logout-mini" onclick="App.logout()" title="Sign Out" aria-label="Sign Out" style="background: none; border: none; cursor: pointer; font-size: 16px;">
+            🚪
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <!-- Top Header Bar -->
+      <header class="top-header" style="background: var(--bg-surface); border-bottom: 1px solid var(--border-subtle); height: 65px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px;">
+        <div class="header-left" style="display: flex; align-items: center; gap: 16px;">
+          <button class="mobile-menu-btn" onclick="App.toggleMobileMenu()" aria-label="Toggle menu" style="display: none; background: none; border: none; font-size: 20px; cursor: pointer;">☰</button>
+          
+          <div class="brand-title-mobile" style="font-weight: 800; font-size: 16px; color: var(--text-primary); display: none;">🎓 Study Hub</div>
+          <div class="active-task-chip" onclick="window.location.hash='#planner'" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); padding: 6px 14px; border-radius: 20px; font-size: 12px; cursor: pointer;">
+            <div class="pulse-indicator"></div>
+            <span><strong>Active Sprint:</strong> Revise Trees (30m left)</span>
+          </div>
+        </div>
+
+        <div class="header-right" style="display: flex; align-items: center; gap: 16px;">
+          <!-- Theme Toggle Button -->
+          <button class="icon-btn" id="theme-toggle-btn" onclick="App.toggleTheme()" title="Toggle Light / Dark Mode" aria-label="Toggle Theme" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px;">
+            <span id="theme-toggle-icon">🌙</span>
+          </button>
+
+          <!-- Notification Bell -->
+          <button class="icon-btn" onclick="App.openNotificationsModal()" aria-label="Notifications" style="position: relative; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+            <span>🔔</span>
+            <div class="badge-dot" style="position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: #ef4444; border-radius: 50%;"></div>
+          </button>
+
+          <!-- User Header Pill -->
+          <div style="display: flex; align-items: center; gap: 10px; cursor: pointer;" onclick="window.location.hash='#settings'">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: #2563eb; color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center;">P</div>
+            <span style="font-weight: 600; font-size: 14px; color: var(--text-primary);" id="top-user-name">Praveen Kumar ▾</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dynamic View Container -->
+      <section class="content-area" id="view-content" style="padding: 24px; min-height: calc(100vh - 65px);">
+        <!-- Rendered dynamically by view controllers -->
+      </section>
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="mobile-bottom-nav">
+      <a class="bottom-nav-item active" href="#dashboard">
+        <span>🏠</span>
+        Home
+      </a>
+      <a class="bottom-nav-item" href="#my-study">
+        <span>📚</span>
+        Study
+      </a>
+      <a class="bottom-nav-item" href="#tests">
+        <span>📝</span>
+        Tests
+      </a>
+      <a class="bottom-nav-item" href="#ai-agent">
+        <span>🤖</span>
+        AI
+      </a>
+      <a class="bottom-nav-item" href="#weak-topics">
+        <span>🧠</span>
+        More
+      </a>
+    </nav>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/views/auth.js"></script>
+  <script src="/js/views/dashboard.js"></script>
+  <script src="/js/views/myStudy.js"></script>
+  <script src="/js/views/weakTopics.js"></script>
+  <script src="/js/views/revisionSession.js"></script>
+  <script src="/js/views/examReadiness.js"></script>
+  <script src="/js/views/flashcards.js"></script>
+  <script src="/js/views/imageSolver.js"></script>
+  <script src="/js/views/studyRooms.js"></script>
+  <script src="/js/views/funCheckup.js"></script>
+  <script src="/js/views/admin.js"></script>
+  <script src="/js/views/aiAgent.js"></script>
+  <script src="/js/views/pdfLab.js"></script>
+  <script src="/js/views/questionPapers.js"></script>
+  <script src="/js/views/importantQuestions.js"></script>
+  <script src="/js/views/tests.js"></script>
+  <script src="/js/views/planner.js"></script>
+  <script src="/js/views/focusShield.js"></script>
+  <script src="/js/views/wellness.js"></script>
+  <script src="/js/views/mindBreak.js"></script>
+  <script src="/js/views/social.js"></script>
+  <script src="/js/views/analytics.js"></script>
+  <script src="/js/views/settings.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
