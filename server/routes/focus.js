@@ -36,7 +36,7 @@ function ensureDefaultSites(userId) {
 
 // Get focus mode configuration, blocked/allowed lists, and YouTube/WhatsApp settings
 router.get('/', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   ensureDefaultSites(userId);
 
   const blocked = db.prepare('SELECT * FROM blocked_sites WHERE user_id = ?').all(userId);
@@ -88,7 +88,7 @@ router.get('/', optionalAuth, (req, res) => {
 
 // Update focus mode settings & start new focus session
 router.post('/mode', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { mode, planned_mins } = req.body; // deep_study, exam_mode, light_study, break_mode
 
   // Abandon previous in_progress session if any
@@ -114,7 +114,7 @@ router.post('/mode', optionalAuth, (req, res) => {
 
 // Complete active focus session
 router.post('/session/complete', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { session_id, duration_mins } = req.body;
 
   const session = db.prepare('SELECT * FROM focus_sessions WHERE id = ? AND user_id = ?').get(session_id, userId);
@@ -139,7 +139,7 @@ router.post('/session/complete', optionalAuth, (req, res) => {
 
 // Abandon active focus session
 router.post('/session/abandon', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { session_id } = req.body;
 
   db.prepare(`
@@ -153,7 +153,7 @@ router.post('/session/abandon', optionalAuth, (req, res) => {
 
 // Log a distraction attempt
 router.post('/distraction-event', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { attempted_target, reason } = req.body;
 
   db.prepare(`
@@ -176,7 +176,7 @@ router.post('/distraction-event', optionalAuth, (req, res) => {
 
 // Add / Remove blocked site
 router.post('/blocked-sites', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { domain, category } = req.body;
 
   if (!domain) return res.status(400).json({ error: 'Domain is required' });
@@ -190,14 +190,14 @@ router.post('/blocked-sites', optionalAuth, (req, res) => {
 });
 
 router.delete('/blocked-sites/:id', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   db.prepare('DELETE FROM blocked_sites WHERE id = ? AND user_id = ?').run(req.params.id, userId);
   res.json({ message: 'Removed site from blocklist' });
 });
 
 // Update YouTube Study Mode settings
 router.put('/youtube-settings', optionalAuth, (req, res) => {
-  const userId = req.user.id;
+  const userId = req.user ? req.user.id : 1;
   const { youtube_study_mode, shorts_restricted, daily_youtube_limit_mins } = req.body;
 
   db.prepare(`
