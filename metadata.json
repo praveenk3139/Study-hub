@@ -1,0 +1,6 @@
+{
+  "name": "Study Hub",
+  "description": "Intelligent personal student study companion to learn, practice, test, analyze, revise, and master topics.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
