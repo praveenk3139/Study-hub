@@ -112,7 +112,7 @@ const DashboardView = {
 
             <!-- Quick Access Section Header -->
             <h3 style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 16px;">
-              Quick Access
+              ⚡ All Feature Modules Directory
             </h3>
 
             <!-- Quick Access Cards Grid -->
@@ -127,7 +127,7 @@ const DashboardView = {
                   My Study
                 </h4>
                 <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">
-                  Access your subjects, syllabus, and study materials.
+                  Access subjects, syllabus, units, and learning topics.
                 </p>
                 <span style="font-size: 13px; font-weight: 700; color: #9333ea; display: inline-flex; align-items: center; gap: 4px;">
                   Explore →
@@ -150,6 +150,22 @@ const DashboardView = {
                 </span>
               </div>
 
+              <!-- Weak Topics & Smart Revision Card -->
+              <div onclick="window.location.hash='#weak-topics'" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                <div style="width: 44px; height: 44px; background: #fef2f2; color: #ef4444; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px;">
+                  🧠
+                </div>
+                <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+                  Weak Topics & Revision
+                </h4>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">
+                  Target low-scoring areas with visual concept diagrams.
+                </p>
+                <span style="font-size: 13px; font-weight: 700; color: #ef4444; display: inline-flex; align-items: center; gap: 4px;">
+                  Revise Now →
+                </span>
+              </div>
+
               <!-- Tests & Quizzes Card -->
               <div onclick="window.location.hash='#tests'" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
                 <div style="width: 44px; height: 44px; background: #dcfce7; color: #16a34a; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px;">
@@ -159,10 +175,58 @@ const DashboardView = {
                   Tests & Quizzes
                 </h4>
                 <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">
-                  Practice AI-generated unit tests and improve your score.
+                  Practice AI-generated unit tests and improve score.
                 </p>
                 <span style="font-size: 13px; font-weight: 700; color: #16a34a; display: inline-flex; align-items: center; gap: 4px;">
                   Take Test →
+                </span>
+              </div>
+
+              <!-- Strict Study Plan & Excel Sync Card -->
+              <div onclick="window.location.hash='#planner'" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                <div style="width: 44px; height: 44px; background: #e0f2fe; color: #0284c7; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px;">
+                  📅
+                </div>
+                <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+                  Strict Study Plan
+                </h4>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">
+                  Manage tasks, recovery queue, and Excel sheet sync.
+                </p>
+                <span style="font-size: 13px; font-weight: 700; color: #0284c7; display: inline-flex; align-items: center; gap: 4px;">
+                  View Plan →
+                </span>
+              </div>
+
+              <!-- Focus Shield & Web Blocker Card -->
+              <div onclick="window.location.hash='#focus-shield'" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                <div style="width: 44px; height: 44px; background: #fae8ff; color: #c026d3; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px;">
+                  🛡️
+                </div>
+                <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+                  Focus Shield & Blocker
+                </h4>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">
+                  Block distracting websites and start Pomodoro timers.
+                </p>
+                <span style="font-size: 13px; font-weight: 700; color: #c026d3; display: inline-flex; align-items: center; gap: 4px;">
+                  Activate Shield →
+                </span>
+              </div>
+
+              <!-- Health & Smartwatch Hub Card -->
+              <div onclick="window.location.hash='#wellness'" style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                <div style="width: 44px; height: 44px; background: #ffe4e6; color: #f43f5e; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 12px;">
+                  ❤️
+                </div>
+                <h4 style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+                  Health & Wearables
+                </h4>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">
+                  Sync smartwatch telemetry, hydration & meal schedules.
+                </p>
+                <span style="font-size: 13px; font-weight: 700; color: #f43f5e; display: inline-flex; align-items: center; gap: 4px;">
+                  Sync Watch →
                 </span>
               </div>
 
@@ -247,27 +311,75 @@ const DashboardView = {
 
             </div>
 
-            <!-- Quick Links List Card -->
+            <!-- Quick Links List Card (All Application Features Directory) -->
             <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow-subtle);">
               <h3 style="font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 14px; display: flex; align-items: center; gap: 8px;">
-                <span>🔗</span> Quick Links
+                <span>🔗</span> All Quick Features Navigation
               </h3>
 
-              <div style="display: flex; flex-direction: column; gap: 8px;">
-                <a href="#pdf-lab" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; text-decoration: none; color: var(--text-primary); font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
-                  <span>📤 Upload PDF</span>
+              <div style="display: flex; flex-direction: column; gap: 6px; max-height: 380px; overflow-y: auto; padding-right: 4px;">
+                <a href="#my-study" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>📚 My Study & Syllabus</span>
                   <span style="color: var(--text-muted);">›</span>
                 </a>
-                <a href="#tests" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; text-decoration: none; color: var(--text-primary); font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
-                  <span>📝 View Previous Tests</span>
+                <a href="#pdf-lab" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>📄 PDF Analysis Lab</span>
                   <span style="color: var(--text-muted);">›</span>
                 </a>
-                <a href="#ai-agent" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; text-decoration: none; color: var(--text-primary); font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
-                  <span>🤖 Ask AI Doubt</span>
+                <a href="#tests" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>📝 Practice Tests & Quizzes</span>
                   <span style="color: var(--text-muted);">›</span>
                 </a>
-                <a href="#social" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; text-decoration: none; color: var(--text-primary); font-size: 13px; font-weight: 600; border-radius: 8px; transition: background 0.15s;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
-                  <span>👥 My Friends</span>
+                <a href="#weak-topics" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>🧠 Weak Topics & Revision</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#exam-readiness" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>🎯 Exam Readiness Score</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#flashcards" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>📇 AI Flashcards</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#image-solver" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>📷 Image Problem Solver</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#question-papers" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>❓ PYQ Question Papers</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#planner" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>📅 Strict Study Plan</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#focus-shield" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>🛡️ Focus Shield & Blocker</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#study-rooms" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>🏫 Virtual Study Rooms</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#wellness" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>❤️ Health & Smartwatch Hub</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#mind-break" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>☕ Mind Break & Relax</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#fun-checkup" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>🎮 Fun Mind Check-up</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#social" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>👥 Friends & Chat</span>
+                  <span style="color: var(--text-muted);">›</span>
+                </a>
+                <a href="#analytics" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; text-decoration: none; color: var(--text-primary); font-size: 12.5px; font-weight: 600; border-radius: 8px;" onmouseover="this.style.background='var(--bg-surface-hover)'" onmouseout="this.style.background='none'">
+                  <span>📊 Performance Analytics</span>
                   <span style="color: var(--text-muted);">›</span>
                 </a>
               </div>
